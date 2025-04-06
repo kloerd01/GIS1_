@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Karten-Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #controls {
+      padding: 1rem;
+      background-color: #f4f4f4;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    #map {
+      height: 90vh;
+      width: 100%;
+    }
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="controls">
+  <label for="locationSelect">Wähle ein Ergebnis:</label>
+  <select id="locationSelect">
+    <option value="berlin">Berlin</option>
+    <option value="dubai">Dubai</option>
+    <option value="losangeles">Los Angeles</option>
+    <option value="singapore">Singapur</option>
+  </select>
+</div>
+
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  // Karte initialisieren
+  const map = L.map('map').setView([52.52, 13.405], 10); // Start in Berlin
+
+  // OpenStreetMap-Tiles hinzufügen
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+  // Liste der Orte mit Zoomstufe
+  const locations = {
+    berlin: { coords: [52.52, 13.405], zoom: 10 },
+    dubai: { coords: [25.2048, 55.2708], zoom: 12 },
+    losangeles: { coords: [34.0522, -118.2437], zoom: 9 },
+    singapore: { coords: [1.3521, 103.8198], zoom: 11 }
+  };
+
+  // Bei Auswahl ändern
+  document.getElementById('locationSelect').addEventListener('change', function () {
+    const value = this.value;
+    const loc = locations[value];
+    map.setView(loc.coords, loc.zoom);
+  });
+</script>
+
+</body>
+</html>
